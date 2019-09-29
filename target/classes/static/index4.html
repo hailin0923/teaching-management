@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Three框架</title>
+  <script src="js/three.min.js" data-ke-src="js/three.min.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <style type="text/css">
+    div#canvas-frame {
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        height: 600px;
+        background-color: #000000;
+    }
+/* 	canvas {
+        width: 100%;
+        height: 100%;
+    } */
+  </style>
+  <script type="text/javascript">
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+  // 定义渲染器对象
+  var renderer;
+  // 初始化渲染器
+  function initThree() {
+      // 获取需要绘制位置的长宽
+      // 创建渲染器对象
+      renderer = new THREE.WebGLRenderer({
+          antialias : true
+      });
+      // 设置渲染器绘制大小
+      renderer.setSize(width, height);
+      document.getElementById('canvas-frame').appendChild(renderer.domElement);
+//    document.body.appendChild(renderer.domElement);
+      renderer.setClearColor(0x000000, 1.0);
+  }
+  
+  // 定义摄像机
+  var camera;
+  // 初始化摄像机
+  function initCamera() {
+      // 创建摄像机
+      camera = new THREE.PerspectiveCamera(45, width/height, 1, 1000);
+      // 设置摄像机位置
+      camera.position.x = 0;
+      camera.position.y = 0;
+      camera.position.z = 1000;
+      // 设置哪个方向向上
+      camera.up.x = 0;
+      camera.up.y = 1;
+      camera.up.z = 0;
+      // 设置相机看向哪里
+      camera.lookAt({
+          x : 0,
+          y : 0,
+          z : 0
+      });
+  }
+  
+  // 定义场景
+  var scene;
+  // 初始化场景
+  function initScene() {
+      // 创建场景
+      scene = new THREE.Scene();
+  }
+  
+  // 定义光源
+  var light;
+  // 初始化光源
+  function initLight() {
+      // 创建光源
+      light = new THREE.DirectionalLight(0xFF0000, 1.0, 0);
+      light.position.set(100, 100, 200);
+      // 添加到场景
+      scene.add(light);
+  }
+  
+  // 定义物体对象
+  var cube;
+  // 初始化物体
+  function initObject() {
+	  var geometry = new THREE.Geometry();
+      geometry.vertices.push( new THREE.Vector3( - 500, 0, 0 ) );
+      geometry.vertices.push( new THREE.Vector3( 500, 0, 0 ) );
+
+      for ( var i = 0; i <= 20; i ++ ) {
+
+          var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xFFFFFF, opacity: 0.2 } ) );
+          line.position.y = ( i * 50 ) - 500;
+          scene.add( line );
+
+          var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xFFFFFF, opacity: 0.2 } ) );
+          line.position.x = ( i * 50 ) - 500;
+          line.rotation.z = 90 * Math.PI / 180;
+          scene.add( line );
+
+      }
+  }
+  
+  function render() {
+      renderer.clear();
+      renderer.render(scene, camera);
+      requestAnimationFrame(render);
+  }
+  
+  function threeStart() {
+      initThree();
+      initCamera();
+      initScene();
+      initLight();
+      initObject();
+      render();
+  }
+  </script>
+</head>
+
+<body onload="threeStart()">
+    <div id="canvas-frame">
+    </div>
+</body>
+
+</html>

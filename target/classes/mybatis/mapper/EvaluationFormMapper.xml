@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.itek.teaching.management.dao.EvaluationFromMapper">
+
+
+    <!-- 查找所有可用的评分题 -->
+    <select id="findAllPro" parameterType="map" resultMap="BaseResultMap">
+        <!--select (@i:=@i+1) num,rating_item
+        from t_teaching_evaluation,(select @i:=0) as it
+        where status = 'Y'-->
+        select rating_item
+        from t_teaching_evaluation
+        where status = 'Y'
+    </select>
+
+    <!-- 可用评分题的总数 -->
+    <select id="countNo" parameterType="com.itek.teaching.management.domain.EvaluationForm"
+            resultType="Integer">
+        select count(1)
+        from t_teaching_evaluation
+        where status = 'Y'
+    </select>
+
+    <resultMap id="BaseResultMap" type="com.itek.teaching.management.domain.EvaluationForm">
+        <id column="id" property="id"/>
+        <result column="rating_item" property="ratingItem"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_modify_time" property="lastModifyTime"/>
+    </resultMap>
+</mapper>

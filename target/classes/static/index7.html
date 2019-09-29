@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Three框架</title>
+<script src="js/three.min.js" data-ke-src="js/three.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/tween.js" data-ke-src="js/tween.js"></script>
+<style type="text/css">
+div#canvas-frame {
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	height: 600px;
+	background-color: #EEEEEE;
+}
+/* 	canvas {
+        width: 100%;
+        height: 100%;
+    } */
+</style>
+<script type="text/javascript">
+	var width = window.innerWidth;
+	var height = window.innerHeight;
+	// 定义渲染器对象
+	var renderer;
+	// 性能监控器
+	var stats;
+	// 初始化渲染器
+	function initThree() {
+		// 获取需要绘制位置的长宽
+		// 创建渲染器对象
+		renderer = new THREE.WebGLRenderer({
+			antialias : true
+		});
+		// 设置渲染器绘制大小
+		renderer.setSize(width, height);
+		document.getElementById('canvas-frame')
+				.appendChild(renderer.domElement);
+		//    document.body.appendChild(renderer.domElement);
+		renderer.setClearColor(0xEEEEEE, 1.0);
+
+		// 创建性能监控器
+		stats = new Stats();
+		// 设置在屏幕的位置
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.left = '0px';
+		stats.domElement.style.top = '0px';
+		// 添加到屏幕上
+		document.getElementById('canvas-frame').appendChild(stats.domElement);
+
+	}
+
+	// 定义摄像机
+	var camera;
+	// 初始化摄像机
+	function initCamera() {
+		// 创建摄像机(透视投影摄像机)
+		camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+		// 创建摄像机(正交投影摄像机)
+		//		camera = new THREE.OrthographicCamera(45, width / height, 1, 1000);
+		// 设置摄像机位置
+		camera.position.x = 0;
+		camera.position.y = 0;
+		camera.position.z = 600;
+		// 设置哪个方向向上
+		camera.up.x = 0;
+		camera.up.y = 1;
+		camera.up.z = 0;
+		// 设置相机看向哪里
+		camera.lookAt({
+			x : 0,
+			y : 0,
+			z : 0
+		});
+	}
+
+	// 定义场景
+	var scene;
+	// 初始化场景
+	function initScene() {
+		// 创建场景
+		scene = new THREE.Scene();
+	}
+
+	// 定义光源
+	var light;
+	// 初始化光源
+	function initLight() {
+		// 创建环境光
+        light = new THREE.AmbientLight(0xFFFFFF);
+        light.position.set(100, 100, 200);
+        scene.add(light);
+	}
+
+	// 定义物体对象
+	var cube;
+	// 初始化物体
+	function initObject() {
+		// A begin
+        var geometry = new THREE.PlaneGeometry( 803, 453, 1, 1 );
+        geometry.vertices[0].uv = new THREE.Vector2(0,0);
+        geometry.vertices[1].uv = new THREE.Vector2(1,0);
+        geometry.vertices[2].uv = new THREE.Vector2(1,1);
+        geometry.vertices[3].uv = new THREE.Vector2(0,1);
+        
+        // 纹理坐标怎么弄
+        var texture = THREE.ImageUtils.loadTexture("img/texture.png",null,function(t)
+        {
+        });
+        var material = new THREE.MeshBasicMaterial({map:texture});
+        var mesh = new THREE.Mesh( geometry,material );
+        
+        scene.add(mesh);
+	}
+
+	function render() {
+		renderer.clear();
+		renderer.render(scene, camera);
+		requestAnimationFrame(render);
+		// 统计帧数
+		stats.update();
+	}
+
+
+	function threeStart() {
+		initThree();
+		initCamera();
+		initScene();
+		initLight();
+		initObject();
+		render();
+	}
+</script>
+</head>
+
+<body onload="threeStart()">
+	<div id="canvas-frame"></div>
+</body>
+
+</html>

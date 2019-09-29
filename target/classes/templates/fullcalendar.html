@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INSPINIA | Calendar</title>
+    <link rel="shortcut icon" th:href="@{/favicon.ico}"/>
+    <link rel="bookmark" th:href="@{/favicon.ico}"/>
+    <link th:href="@{/css/plugins/fullcalendar/fullcalendar.css}" rel="stylesheet">
+    <link th:href="@{/css/plugins/fullcalendar/fullcalendar.print.css}" rel='stylesheet' media='print'>
+
+    <link th:href="@{/css/plugins/datapicker/datepicker3.css}" rel="stylesheet">
+    <link th:href="@{/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet">
+    <link th:href="@{/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet">
+
+</head>
+
+<body style="background-color: white">
+
+
+<div class="text-center hidden">
+    <button id="addBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addEventModel">
+        Launch demo modal
+    </button>
+</div>
+<div class="modal inmodal" id="addEventModel" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <i class="fa fa-laptop modal-icon"></i>
+                <h4 class="modal-title">课程安排</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group"><label class="col-lg-2 control-label">日程安排</label>
+
+                        <div class="col-lg-10"><input id="title" type="text" name="title" placeholder="日程安排" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group"><label class="col-lg-2 control-label">备注</label>
+
+                        <div class="col-lg-10"><input id="content" type="text" name="content" placeholder="备注" class="form-control"></div>
+                    </div>
+                    <div class="form-group" id="data_1">
+                        <label class="col-lg-2 control-label">开始时间</label>
+                        <div class="col-lg-10">
+                            <div class="input-group date">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input disabled id="start" name="start" type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="data_2">
+                        <label class="col-lg-2 control-label">结束时间</label>
+                        <div class="col-lg-10">
+                            <div class="input-group date">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input disabled id="end" name="end" type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button id="closeBtn" type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button id="saveBtn" type="button" class="btn btn-primary">保存日程</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="text-center hidden">
+    <button id="modifyBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifyEventModal">
+        Launch demo modal
+    </button>
+</div>
+<div class="modal inmodal" id="modifyEventModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <i class="fa fa-laptop modal-icon"></i>
+                <h4 class="modal-title">课程安排</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <input type="hidden" id="eventId1">
+                    <div class="form-group"><label class="col-lg-2 control-label">日程安排</label>
+
+                        <div class="col-lg-10"><input id="title1" type="text" name="title" placeholder="日程安排" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group"><label class="col-lg-2 control-label">备注</label>
+
+                        <div class="col-lg-10"><input id="content1" type="text" name="content" placeholder="备注" class="form-control"></div>
+                    </div>
+                    <div class="form-group" id="data_1_1">
+                        <label class="col-lg-2 control-label">开始时间</label>
+                        <div class="col-lg-10">
+                            <div class="input-group date">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input disabled id="start1" name="start" type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="data_2_1">
+                        <label class="col-lg-2 control-label">结束时间</label>
+                        <div class="col-lg-10">
+                            <div class="input-group date">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input disabled id="end1" name="end" type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button id="closeBtn1" type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button id="saveBtn1" type="button" class="btn btn-primary">保存修改</button>
+                <button id="delBtn1" type="button" class="btn btn-danger">删除日程</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="calendar"></div>
+
+<!-- Mainly scripts -->
+<script th:src="@{/js/plugins/fullcalendar/moment.min.js}"></script>
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+<!-- Full Calendar -->
+<script th:src="@{/js/plugins/fullcalendar/fullcalendar.min.js}"></script>
+<!-- Data picker -->
+<script th:src="@{/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
+
+
+<script th:inline="javascript">
+    var context = "[[@{/}]]";
+    $(document).ready(function () {
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+
+            theme: false,//如果设置为true，则需要加载jquery ui相关css和js文件,默认值为false
+            firstDay: 1,//设置一周中显示的第一天是哪天，周日是0，周一是1，类推
+            isRTL: false,//设置为ture时则日历从右往左显示
+            weekends: true,//是否显示周末，设为false则不显示周六和周日。默认值为true
+            hiddenDays: [],//隐藏一周中的某一天或某几天，数组形式，如隐藏周二和周五：[2,5]，默认不隐藏，除非weekends设置为false。
+            weekMode: 'fixed',//在月视图里显示周的模式，因为每月周数可能不同，所以月视图高度不一定。fixed：固定显示6周高，日历高度保持不变liquid：不固定周数，高度随周数变化variable：不固定周数，但高度固定
+            weekNumbers: false,//是否在日历中显示周次(一年中的第几周)，如果设置为true，则会在月视图的左侧、周视图和日视图的左上角显示周数。
+            weekNumberCalculation: 'iso',//周次的显示格式。
+            //height:600,//设置日历的高度，包括header日历头部，默认未设置，高度根据aspectRatio值自适应。
+            //contentHeight://设置日历主体内容的高度，不包括header部分，默认未设置，高度根据aspectRatio值自适应。
+            aspectRatio: 1.35,//设置日历单元格宽度与高度的比例。
+            handleWindowResize: true,//是否随浏览器窗口大小变化而自动变化。
+
+            // render:function(view){
+            //     console.log('render',view)
+            // },//method,绑定日历到id上。$('#id').fullCalendar('render');
+
+            weekNumbers: false,     //是否在视图左边显示这是第多少周，默认false
+            // viewRender : function(view,element){//在视图被渲染时触发（切换视图也触发） 参数view为视图对象，参数element为Jquery的视图Dom
+            //     console.log("↓↓↓viewRender↓↓↓");
+            // },
+            allDayText: "全天",            //自定义全天视图的名称
+            slotDuration: "00:30:00",      //一格时间槽代表多长时间，默认00:30:00（30分钟）
+            slotLabelFormat: "H(:mm) a",    //日期视图左边那一列显示的每一格日期时间格式
+            slotLabelInterval: "01:00:00", //日期视图左边那一列多长间隔显示一条日期文字(默认跟着slotDuration走的，可自定义)
+            snapDuration: "00:30:00",      //其实就是动态创建一个日程时，默认创建多长的时间块
+
+            slotEventOverlap: false,       //相同时间段的多个日程视觉上是否允许重叠，默认true允许
+
+            noEventsMessage: "L没数据啊",   //listview视图下，无数据时显示提示
+            // defaultDate  : '2018-09-10',    //默认显示那一天的日期视图getDates(true)
+            nowIndicator: true,            //周/日视图中显示今天当前时间点（以红线标记），默认false不显示
+
+            monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], //月份自定义命名
+            monthNamesShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], //月份缩略命名（英语比较实用：全称January可设置缩略为Jan）
+            dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],       //同理monthNames
+            dayNamesShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],  //同理monthNamesShort
+            weekNumberTitle: "周",         //周的国际化,默认为"W"
+
+            eventLimit: true,       //数据条数太多时，限制各自里显示的数据条数（多余的以“+2more”格式显示），默认false不限制,支持输入数字设定固定的显示条数
+            eventLimitText: "更多",       //当一块区域内容太多以"+2 more"格式显示时，这个more的名称自定义（应该与eventLimit: true一并用）
+            dayPopoverFormat: "YYYY年M月d日", //点开"+2 more"弹出的小窗口标题，与eventLimitClick可以结合用
+            navLinks: true,                // “xx周”是否可以被点击，默认false，如果为true则周视图“周几”被点击之后进入日视图。本地测试：没什么效果
+
+            /*dayClick: function(date, jsEvent, view) {//空白的日期区，单击时触发
+                console.log("↓↓↓dayClick↓↓↓");
+                console.log('Clicked on: ' + date.format());
+                console.log('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+                console.log('Current view: ' + view.name);
+
+                var eventObj = {
+                    "title": "javaSE day01",
+                    "start": date.format()
+                };
+
+                $('#calendar').fullCalendar('renderEvent', eventObj, true);
+                //$(this).css('background-color', 'red');
+            },*/
+            eventClick: function (calEvent, jsEvent, view) {//日程区块，单击时触发
+                $('#modifyBtn').click();
+                $('#start1').val(calEvent.start.format());
+                $('#end1').val(calEvent.end.format());
+                $('#title1').val(calEvent.title);
+                $('#eventId1').val(calEvent.id);
+
+                return false;  //return false可以阻止点击后续事件发生（比如event中的url跳转事件）
+            },
+            // eventMouseover: function(calEvent, jsEvent, view){//鼠标在日程区块上时触发
+            //
+            //     console.log(jsEvent)
+            //     console.log(calEvent.start._i)
+            //     $('.hover-dateStr').html(calEvent.start._i)
+            //     console.log(jsEvent.pageY,jsEvent.pageX)
+            //     $('.hover-container').removeClass('none').animate({'top':jsEvent.pageY,'left':jsEvent.pageX})
+            // },
+            // eventMouseout: function(calEvent, jsEvent, view){//鼠标从日程区块离开时触发
+            //     $('.hover-container').addClass('none')
+            // },
+            selectable: true,           //允许用户可以长按鼠标选择多个区域(比如月视图，可以选中多天；日视图可以选中多个小时)，默认false不能选择多区域的
+            selectHelper: true,         //接selectable，周/日视图在选择时是否预先画出“日程区块”的样式出来
+            unselectAuto: true,        //是否点击页面上的其他地方会导致当前的选择被清除，默认true
+            unselectCancel: "",        //一种方法来指定元素，会忽略unselectauto选项，默认''
+            selectOverlap: true,       //确定用户是否被允许选择被事件占用的时间段，默认true可占用时间段
+            // selectAllow : function(selectInfo){ //精确的编程控制用户可以选择的地方，返回true则表示可选择，false表示不可选择
+            //     console.log("↓↓↓selectConstraint↓↓↓");
+            //     console.log("start:"+selectInfo.start+"|end:"+selectInfo.end+"|resourceId:"+selectInfo.resourceId);
+            //     return false;
+            // },
+            select: function (start, end, jsEvent, view) { //点击空白区域/选择区域内容触发
+                console.log("↓↓↓select↓↓↓");
+                console.log("view:" + view + " start:" + start + " end:" + end);
+
+                // $('#calendar').fullCalendar('renderEvent', eventObj, true);
+                $('#start').val(start.format());
+                $('#end').val(end.format());
+                $('#addBtn').click();
+            },
+            // unselect : function(view, jsEvent){//选择操作取消时触发
+            //     console.log("↓↓↓unselect↓↓↓");
+            //     console.log("view:"+view);
+            // },
+            lazyFetching: true,        //是否启用懒加载技术--即只取当前条件下的视图数据，其它数据在切换时触发，默认true只取当前视图的，false是取全视图的
+            defaultTimedEventDuration: "09:00:00",     //在Event Object中如果没有end参数时使用，如start=7:00pm，则该日程对象时间范围就是7:00~9:00
+            defaultAllDayEventDuration: {days: 1},  //默认1天是多长，（有的是采用工作时间模式，所以支持自定义）
+            // loading : function(isLoading, view){ //视图数据加载中、加载完成触发
+            //     console.log("↓↓↓loading↓↓↓");
+            //     if(isLoading == true){
+            //         console.log("view:"+view+",开始加载");
+            //     }else if(isLoading == false){
+            //         console.log("view:"+view+",加载完成");
+            //     }else{
+            //         console.log("view:"+view+",除非天塌下来否则不会进这个分支");
+            //     }
+            // },
+
+            eventOrder: "title",           //多个相同的日程数据排序方式，String / Array / Function, 默认值: "title"
+            // eventRender : function(event, element, view) {          //当Event对象开始渲染时触发
+            //     console.log("eventRender():"+event.title);
+            // },
+            eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+                console.log("event.drop");
+                console.log(event.start.format());
+                console.log(event.end.format());
+                console.log(event.title);
+                console.log(event.id);
+                var data = {
+                    // start : event.start.format() + " 08:30:00",
+                    // end : event.end.format() + " 00:00:00",
+                    start : event.start.format(),
+                    end : event.end.format(),
+                    id: event.id
+                };
+                $.ajax({
+                    url : context + "schedule/modify",
+                    data : data,
+                    type: 'post',
+                    dataType: 'json',
+                    success: function(data) {
+                        alert(data.msg);
+                    }
+                });
+            },
+            eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
+                console.log("event.drop");
+                console.log(event.start.format());
+                console.log(event.end.format());
+                console.log(event.title);
+                console.log(event.id);
+                var data = {
+                    // start : event.start.format() + " 08:30:00",
+                    // end : event.end.format() + " 00:00:00",
+                    start : event.start.format(),
+                    end : event.end.format(),
+                    id: event.id
+                };
+                $.ajax({
+                    url : context + "schedule/modify",
+                    data : data,
+                    type: 'post',
+                    dataType: 'json',
+                    success: function(data) {
+                        alert(data.msg);
+                    }
+                });
+            },
+            // eventAfterAllRender : function(view){console.log("eventAfterAllRender();");},   //当所有Event对象渲染完成时触发
+            editable: true,                 //支持Event日程拖动修改，默认false
+            eventStartEditable: true,      //Event日程开始时间可以改变，默认true，如果是false其实就是指日程块不能随意拖动，只能上下拉伸改变他的endTime
+            eventDurationEditable: true,  //Event日程的开始结束时间距离是否可以改变，默认true，如果是false则表示开始结束时间范围不能拉伸，只能拖拽
+            dragOpacity: 0.2,                //拖拽时不透明度，0.0~1.0之间，数字越小越透明
+            dragScroll: true,              //是否在拖拽时自动移动容器，默认true
+
+            eventOverlap: true,            //拖拽时是否重叠
+            /*eventConstraint : {     //限制拖拽拖放的位置（即限制有些地方拖不进去）：an event ID, "businessHours", object
+                start: '10:00',     // a start time (10am in this example)
+                end: '18:00',       // an end time (6pm in this example)
+                dow: [ 1, 2, 3, 4 ] // days of week. an array of zero-based day of week integers (0=Sunday)  (Monday-Thursday in this example)
+            },*/
+
+            events: function(start, end, timezone, callback) {
+                $.ajax({
+                    url: context + "schedule/get",
+                    dataType: 'json',
+                    data: {
+                        // our hypothetical feed requires UNIX timestamps
+                        // start: start.format() + " 00:00:00",
+                        // end: end.format() + " 00:00:00"
+                        start: start.format(),
+                        end: end.format()
+                    },
+                    success: function(data) {
+                        var events = [];
+                        $(data.data).each(function() {
+                            alert(this.end.substring(0, 10));
+                            events.push({
+                                title: $(this).attr('title'),
+                                start: $(this).attr('start'), // will be parsed
+                                end: $(this).attr('end'),
+                                id: $(this).attr('id'),
+                                allDay: true
+                            });
+                        });
+                        callback(events);
+                    }
+                });
+            }
+        });
+
+
+        $('#data_1 .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format: "yyyy-mm-dd"
+        });
+        $('#data_2 .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format: "yyyy-mm-dd"
+        });
+        $('#data_1_1 .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format: "yyyy-mm-dd"
+        });
+        $('#data_2_1 .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format: "yyyy-mm-dd"
+        });
+
+        // 清空内容
+        $('#closeBtn #closeBtn1').click(function () {
+            $('#title').val("");
+            $('#content').val("");
+        });
+
+        $('#saveBtn').click(function () {
+            $('#saveBtn').attr('disabled', true);
+            var formData = {};
+            formData.title = $('#title').val();
+            // formData.content = $('#content').val();
+            // formData.start = $('#start').val() + " 08:30:00";
+            // formData.end = $('#end').val() + " 00:00:00";
+            formData.start = $('#start').val();
+            formData.end = $('#end').val();
+            $.ajax({
+                url: context + "schedule/add",
+                data: formData,
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    alert(data.msg);
+                    $('#saveBtn').attr('disabled', false);
+                    $('#closeBtn').click();
+
+                    var eventObj = formData;
+                    eventObj.start = $('#start').val();
+                    eventObj.end = $('#end').val();
+                    eventObj.allDay = true;
+                    eventObj.id = data.data;
+                    //刷新日历里面的记录
+                    $('#calendar').fullCalendar('renderEvent', eventObj, true);
+                }
+            });
+        });
+        $('#saveBtn1').click(function () {
+            $('#saveBtn1').attr('disabled', true);
+            var formData = {};
+            formData.title = $('#title1').val();
+            formData.start = $('#start1').val();
+            formData.end = $('#end1').val();
+            formData.id = $('#eventId1').val();
+            $.ajax({
+                url: context + "schedule/modify",
+                data: formData,
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    alert(data.msg);
+                    $('#saveBtn1').attr('disabled', false);
+                    $('#closeBtn1').click();
+
+                    var eventObj = formData;
+                    eventObj.allDay = true;
+                    //刷新日历里面的记录
+                    $('#calendar').fullCalendar('removeEvents', $('#eventId1').val());
+                    $('#calendar').fullCalendar('renderEvent', eventObj, true);
+                }
+            });
+        });
+
+        $('#delBtn1').click(function(){
+            $.ajax({
+                url: context + "schedule/delete/" + $('#eventId1').val(),
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    alert(data.msg);
+                    $('#saveBtn1').attr('disabled', false);
+                    $('#closeBtn1').click();
+
+                    //刷新日历里面的记录
+                    $('#calendar').fullCalendar('removeEvents', $('#eventId1').val());
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+
+</html>
